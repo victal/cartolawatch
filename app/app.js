@@ -1,3 +1,3 @@
 angular.module('CartolaWatcher', [
-    'ui.router'
+    'ngMaterial',
 ]);

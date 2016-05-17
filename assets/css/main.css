@@ -1,0 +1,29 @@
+.parcial {
+    text-align: center;
+}
+.nome-time > span {
+    display: block;
+    width:100%;
+}
+.escudo img {
+    max-width:30%;
+}
+.nome-time > .cartola {
+    font-style: italic;
+}
+.jogadores {
+    text-align: left;
+}
+.jogador {
+    width: 100%
+}
+.jogador>strong, .jogador>span {
+    padding-left: 0.3em;
+}
+.pts{
+    float: right;
+}
+.pontuacao .valor {
+    font-size: 140%;
+    font-weight: bold;
+}
