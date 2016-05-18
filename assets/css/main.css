@@ -1,5 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+    background-color: #cccccc;
+}
+.title-bar {
+    text-align: center;
+    height: 40vh;
+    background-color: #2e2e2e;
+    color: #c5cae9;
+}
 .parcial {
     text-align: center;
+    border: 0.5em solid #9E9E9E;
+    border-radius: 1em;
+}
+.parcial hr{
+    color: #9E9E9E;
+}
+.alert {
+    text-align: center;
+    color: #a30000;
 }
 .nome-time > span {
     display: block;
@@ -26,4 +47,7 @@
 .pontuacao .valor {
     font-size: 140%;
     font-weight: bold;
+}
+.close {
+    text-align: right;
 }

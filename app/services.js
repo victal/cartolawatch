@@ -18,19 +18,34 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', function ($
                 return response;
             });
         },
-        parciais: function (nomeTime) {
+        slugTime: function(nomeTime) {
+            return nomeTime.toLowerCase().replace(/[ .]/, "-").replace(/[^a-z0-9-]/, "");
+        },
+        findTime: function(nomeTime) {
+            var slugTime = this.slugTime(nomeTime);
+            return $http({
+                method: 'GET',
+                url: 'http://localhost/api/time/' + slugTime
+            }).then(function (response) {
+                this.parciais[slugTime] = response.data;
+                return slugTime;
+            }.bind(this), function (response) {
+                return response;
+            });
+        },
+        parciais: function (slugTime) {
             var time, self = this;
-            if (this.times[nomeTime]) {
-                time = self.times[nomeTime];
+            if (this.times[slugTime]) {
+                time = this.times[slugTime];
                 return this.__getParciais(time);
             }
             else {
                 return $http({
                     method: 'GET',
-                    url: 'http://localhost/api/time/' + nomeTime
+                    url: 'http://localhost/api/time/' + slugTime
                 }).then(function (response) {
                     time = response.data;
-                    self.times[nomeTime] = time;
+                    self.times[slugTime] = time;
                     return self.__getParciais(time);
                 }, function (response) {
                     console.log(response);
