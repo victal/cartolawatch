@@ -1,4 +1,4 @@
-angular.module('CartolaWatcher').factory('CartolaService', ['$http', function ($http) {
+angular.module('CartolaWatcher').factory('CartolaService', ['$http', 'Constants', function ($http, Constants) {
     return {
         pontuados: null,
         mercadoAberto: false,
@@ -7,7 +7,7 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', function ($
             var self = this;
             return $http({
                 method: 'GET',
-                url: 'http://localhost/api/atletas/pontuados'
+                url: Constants.API_BASE_URL + '/atletas/pontuados'
             }).then(function successCallback(response) {
                 self.pontuados = response.data;
                 return response.data;
@@ -25,7 +25,7 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', function ($
             var slugTime = this.slugTime(nomeTime);
             return $http({
                 method: 'GET',
-                url: 'http://localhost/api/time/' + slugTime
+                url: Constants.API_BASE_URL + '/time/' + slugTime
             }).then(function (response) {
                 this.parciais[slugTime] = response.data;
                 return slugTime;
@@ -42,7 +42,7 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', function ($
             else {
                 return $http({
                     method: 'GET',
-                    url: 'http://localhost/api/time/' + slugTime
+                    url: Constants.API_BASE_URL + '/time/' + slugTime
                 }).then(function (response) {
                     time = response.data;
                     self.times[slugTime] = time;

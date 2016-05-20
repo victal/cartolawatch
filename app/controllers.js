@@ -1,5 +1,5 @@
-angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$q', 'CartolaService',
-    function ($scope, $q, CartolaService) {
+angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$interval', '$q', 'CartolaService',
+    function ($scope, $interval, $q, CartolaService) {
         var vm = this;
         vm.parciais = {
             'bvbzuera': {},
@@ -8,11 +8,6 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$q'
             'thebucketkickers': {}
         };
         vm.times = Object.keys(vm.parciais);
-
-        CartolaService.atualizaPontuados().then(function () {
-            vm.updateParciais(Object.keys(vm.parciais));
-            vm.mercadoAberto = CartolaService.mercadoAberto;
-        });
 
         vm.addTime = function (nomeTime) {
             $scope.new_time = "";
@@ -39,5 +34,23 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$q'
                 angular.extend(vm.parciais, parciais);
             });
         };
+        vm.atualizaPontuados = function () {
+            console.log(new Date());
+            CartolaService.atualizaPontuados().then(function () {
+                vm.updateParciais(Object.keys(vm.parciais));
+                vm.mercadoAberto = CartolaService.mercadoAberto;
+                vm.lastUpdate = Date.now();
+                if (vm.mercadoAberto && !angular.isDefined($scope.updatePromise)) {
+                    $scope.updatePromise = $interval(vm.atualizaPontuados, 1000 * 60 * 5);
+                    $scope.$on('$destroy', function () {
+                        if (angular.isDefined($scope.updatePromise)) {
+                            $interval.cancel($scope.updatePromise);
+                        }
+                        delete $scope.updatePromise;
+                    });
+                }
+            });
+        };
+        vm.atualizaPontuados();
     }
 ]);
