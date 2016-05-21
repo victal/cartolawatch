@@ -2,13 +2,13 @@
     box-sizing: border-box;
 }
 html, body {
-    background-color: #cccccc;
+    background-color: #f5f5f5;
 }
 .title-bar {
     text-align: center;
     height: 40vh;
-    background-color: #2e2e2e;
-    color: #c5cae9;
+    background-color: #37474F;
+    color: #90caf9;
 }
 .parcial {
     text-align: center;
