@@ -70,12 +70,12 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', 'Constants'
             });
             time.atletas.forEach(function (atleta) {
                 var id = atleta.atleta_id.toString();
-                var pontuacao = '-';
+                var pontuacao = 0;
                 if (self.mercadoAberto) {
                     pontuacao = atleta.pontos_num;
                 }
                 else {
-                    var parcial = self.pontuados[id];
+                    var parcial = self.pontuados.atletas[id];
                     if (parcial) {
                         pontuacao = parcial.pontuacao;
                     }
