@@ -25,10 +25,9 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
         vm.addTime = function (nomeTime) {
             $scope.new_time = "";
             if (vm.times.length >= vm.maxTimes()) {
-                var message = "O número máximo permitido de times simultâneos é " + vm.maxTimes() +
-                    ". Remova um ou mais times e tente novamente.";
+                var message = "O layout atual pode apresentar problemas com mais de  " + vm.maxTimes() +
+                    "times simultâneos. Remova um ou mais times ou continue por sua conta e risco";
                 showAlert("Atenção", message);
-                return;
             }
             var slug = CartolaService.slugTime(nomeTime);
             if (vm.times.indexOf(slug) === -1) {
