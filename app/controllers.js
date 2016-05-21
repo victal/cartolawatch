@@ -26,7 +26,7 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
             $scope.new_time = "";
             if (vm.times.length >= vm.maxTimes()) {
                 var message = "O layout atual pode apresentar problemas com mais de  " + vm.maxTimes() +
-                    "times simultâneos. Remova um ou mais times ou continue por sua conta e risco";
+                    " times simultâneos. Remova um ou mais times ou continue por sua conta e risco";
                 showAlert("Atenção", message);
             }
             var slug = CartolaService.slugTime(nomeTime);
