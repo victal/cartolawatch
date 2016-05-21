@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="CartolaWatcher" ng-cloak>
+<html ng-app="CartolaWatcher" ng-cloak >
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>CartolaWatcher - Parciais parcialmente atualizadas</title>
-    <link rel="stylesheet" href="style-98ba596590.css"/>
+    <link rel="stylesheet" href="style-1852e882a2.css"/>
 </head>
 <body>
 <header>
@@ -25,14 +25,13 @@
             </md-button>
         </div>
     </div>
-    <div class="alerts alert"></div>
     <div class="alert-rodada alert" ng-if="cartola.mercadoAberto">
         <strong>
         A rodada ainda não começou! Mostrando resultados da última rodada
         </strong>
     </div>
     <div class="alert-update alert" ng-if="!cartola.mercadoAberto">
-        Próxima atualização em 5 minutos
+        <span>Próxima atualização </span><span am-time-until="nextUpdate">em 5 minutos</span>
     </div>
     <div layout="row" layout-margin layout-align="center">
         <div ng-repeat="slug in cartola.times" class="parcial" flex="25">
@@ -73,6 +72,7 @@
         </div>
     </div>
 
-    <script src="js/app-7e141ef38d.js"></script>
+    <script src="js/app-d8f38fff72.js"></script>
 </body>
 </html>
+
