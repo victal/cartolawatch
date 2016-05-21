@@ -29,9 +29,7 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', 'Constants'
             }).then(function (response) {
                 this.parciais[slugTime] = response.data;
                 return slugTime;
-            }.bind(this), function (response) {
-                return response;
-            });
+            }.bind(this));
         },
         parciais: function (slugTime) {
             var time, self = this;

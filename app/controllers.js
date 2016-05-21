@@ -1,5 +1,5 @@
-angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$interval', '$q', 'CartolaService',
-    function ($scope, $interval, $q, CartolaService) {
+angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$interval', '$q', '$mdDialog', 'CartolaService',
+    function ($scope, $interval, $q, $mdDialog, CartolaService) {
         var vm = this;
         vm.parciais = {
             'bvbzuera': {},
@@ -8,16 +8,35 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
             'thebucketkickers': {}
         };
         vm.times = Object.keys(vm.parciais);
-
+        vm.maxTimes = function () {
+            var widths = {
+                '980': 2,
+                '1280': 4,
+                '1920': 6
+            };
+            var maxTimes = 2;
+            angular.forEach(widths, function(num, width){
+               if(Modernizr.mq('(min-width: ' + width + 'px)')){
+                   maxTimes = num;
+               }
+            });
+            return maxTimes;
+        };
         vm.addTime = function (nomeTime) {
             $scope.new_time = "";
+            if (vm.times.length >= vm.maxTimes()) {
+                var message = "O número máximo permitido de times simultâneos é " + vm.maxTimes() +
+                    ". Remova um ou mais times e tente novamente.";
+                showAlert("Atenção", message);
+                return;
+            }
             var slug = CartolaService.slugTime(nomeTime);
             if (vm.times.indexOf(slug) === -1) {
                 CartolaService.findTime(nomeTime).then(function (result) {
                     vm.times.push(result);
                     vm.updateParciais([result]);
                 }, function (result) {
-                    console.log('Time não encontrado!');
+                    showAlert("Erro", "Time não encontrado! É necessário passar o nome completo do time para adicioná-lo.")
                 });
             }
         };
@@ -35,12 +54,11 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
             });
         };
         vm.atualizaPontuados = function () {
-            console.log(new Date());
             CartolaService.atualizaPontuados().then(function () {
                 vm.updateParciais(Object.keys(vm.parciais));
                 vm.mercadoAberto = CartolaService.mercadoAberto;
-                vm.lastUpdate = Date.now();
-                if (vm.mercadoAberto && !angular.isDefined($scope.updatePromise)) {
+                $scope.nextUpdate = moment(Date.now()).add(5, 'minutes');
+                if (!vm.mercadoAberto && !angular.isDefined($scope.updatePromise)) {
                     $scope.updatePromise = $interval(vm.atualizaPontuados, 1000 * 60 * 5);
                     $scope.$on('$destroy', function () {
                         if (angular.isDefined($scope.updatePromise)) {
@@ -52,5 +70,18 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
             });
         };
         vm.atualizaPontuados();
+
+        function showAlert(title, message) {
+            var alert = $mdDialog.alert({
+                title: title,
+                textContent: message,
+                ok: 'OK'
+            });
+            $mdDialog
+                .show(alert)
+                .finally(function () {
+                    alert = undefined;
+                });
+        }
     }
 ]);
