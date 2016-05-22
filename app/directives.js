@@ -7,7 +7,7 @@ angular.module('CartolaWatcher').directive('amTimeUntil', ['$timeout', function 
                 futureMoment;
 
             function cancelTimer() {
-                if(activeTimeout !== null){
+                if (activeTimeout !== null) {
                     $timeout.cancel(activeTimeout);
                     activeTimeout = null;
                 }
@@ -28,7 +28,7 @@ angular.module('CartolaWatcher').directive('amTimeUntil', ['$timeout', function 
             function updateContent() {
                 var now = moment(Date.now()),
                     difference = "";
-                if(now.isBefore(futureMoment)){
+                if (now.isBefore(futureMoment)) {
                     difference = now.to(futureMoment);
                 }
                 else {
@@ -44,8 +44,18 @@ angular.module('CartolaWatcher').directive('amTimeUntil', ['$timeout', function 
                     secondsUntilUpdate = 300;
                 }
                 element.text(difference);
-                activeTimeout = $timeout(updateContent, 1000*secondsUntilUpdate);
+                activeTimeout = $timeout(updateContent, 1000 * secondsUntilUpdate);
             }
         }
     };
-}]);
+}]).directive('cwSearchTeam', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            onChoose: '='
+        },
+        controller: 'SearchController',
+        controllerAs: 'search',
+        templateUrl: 'app/fragments/search.html'
+    }
+});

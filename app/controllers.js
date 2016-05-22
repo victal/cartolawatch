@@ -15,28 +15,23 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
                 '1920': 6
             };
             var maxTimes = 2;
-            angular.forEach(widths, function(num, width){
-               if(Modernizr.mq('(min-width: ' + width + 'px)')){
-                   maxTimes = num;
-               }
+            angular.forEach(widths, function (num, width) {
+                if (Modernizr.mq('(min-width: ' + width + 'px)')) {
+                    maxTimes = num;
+                }
             });
             return maxTimes;
         };
-        vm.addTime = function (nomeTime) {
-            $scope.new_time = "";
+        vm.addTime = function (time) {
             if (vm.times.length >= vm.maxTimes()) {
                 var message = "O layout atual pode apresentar problemas com mais de  " + vm.maxTimes() +
                     " times simultâneos. Remova um ou mais times ou continue por sua conta e risco";
                 /*showAlert("Atenção", message);*/
             }
-            var slug = CartolaService.slugTime(nomeTime);
+            var slug = time.time.slug;
             if (vm.times.indexOf(slug) === -1) {
-                CartolaService.findTime(nomeTime).then(function (result) {
-                    vm.times.push(result);
-                    vm.updateParciais([result]);
-                }, function (result) {
-                    showAlert("Erro", "Time não encontrado! É necessário passar o nome completo do time para adicioná-lo.")
-                });
+                vm.times.push(slug);
+                vm.updateParciais([slug]);
             }
         };
         vm.removeTime = function (time) {
@@ -70,17 +65,49 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
         };
         vm.atualizaPontuados();
 
-        function showAlert(title, message) {
-            var alert = $mdDialog.alert({
-                title: title,
-                textContent: message,
-                ok: 'OK'
-            });
-            $mdDialog
-                .show(alert)
-                .finally(function () {
-                    alert = undefined;
-                });
-        }
+        
     }
-]);
+]).controller('SearchController', ['$scope', 'DialogService', 'TimeService', function ($scope, DialogService, TimeService) {
+    var vm = this;
+
+    function showTimesDialog(times) {
+        return DialogService.showDialog({
+            templateUrl: "app/fragments/searchList.html",
+            locals: {
+                times: times
+            },
+            controller: function($scope, $mdDialog, times){
+                $scope.times = times;
+                $scope.answer = function(value){
+                    $mdDialog.hide(value);
+                }
+            }
+        });
+    }
+
+    vm.search = function (nomeTime) {
+        return TimeService.search(nomeTime).then(function (times) {
+            if (times.length == 0) {
+                DialogService.showAlert("Erro", "Nenhum time encontrado para o critério de busca!");
+            }
+            else {
+                var slugTime;
+                $scope.new_time = '';
+                if (times.length == 1) {
+                    slugTime = times[0].slug;
+                    TimeService.getTime(slugTime).then(function(timeFull){
+                        $scope.onChoose(timeFull);
+                    });
+                } else {
+                    showTimesDialog(times).then(function(result){
+                        slugTime = result;
+                        TimeService.getTime(slugTime).then(function(timeFull){
+                            $scope.onChoose(timeFull);
+                        });
+                    });
+                }
+            }
+        });
+
+    }
+}]);

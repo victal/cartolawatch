@@ -1,5 +1,6 @@
 angular.module('CartolaWatcher', [
-    'ngMaterial'
+    'ngMaterial',
+    'CartolaWatcher.templates'
 ]).config(['$mdThemingProvider', function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('blue')

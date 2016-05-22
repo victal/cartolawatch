@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="CartolaWatcher" ng-cloak >
+<html ng-app="CartolaWatcher" ng-cloak ng-strict-di>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -8,23 +8,13 @@
 </head>
 <body>
 <header>
-</header>
-<div class="body" ng-controller="CartolaController as cartola">
     <div class="title-bar" layout="column" layout-align="center">
         <h1 class="title md-display-1">CartolaWATcher<span class="tagline"> - Zuera em tempo real</span></h1>
         <h2 class="subtitle md-subtitle">Parciais atualizadas a partir dos dados oficiais do CartolaFC</h2>
     </div>
-    <div layout="row" layout-margin layout-align="center">
-        <md-input-container flex="70">
-            <label for="novo-time">Nome do time</label>
-            <input id="novo-time" type="text" ng-model="new_time"/>
-        </md-input-container>
-        <div flex="5">
-            <md-button class="md-flat md-mini" ng-click="cartola.addTime(new_time)">
-                Adicionar Time
-            </md-button>
-        </div>
-    </div>
+</header>
+<div class="body" ng-controller="CartolaController as cartola">
+    <cw-search-team on-choose="cartola.addTime"></cw-search-team>
     <div class="alert-rodada alert" ng-if="cartola.mercadoAberto">
         <strong>
         A rodada ainda não começou! Mostrando resultados da última rodada
@@ -72,7 +62,7 @@
         </div>
     </div>
 
-    <script src="js/app-9d9f07a067.js"></script>
+    <script src="js/app-53a48c517c.js"></script>
 </body>
 </html>
 
