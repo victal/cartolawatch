@@ -7,8 +7,8 @@ html, body {
 .title-bar {
     text-align: center;
     height: 40vh;
-    background-color: #37474F;
-    color: #90caf9;
+    background-color: #009688;
+    color: #212121;
 }
 .parcial {
     text-align: center;

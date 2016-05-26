@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>CartolaWatcher - Parciais parcialmente atualizadas</title>
-    <link rel="stylesheet" href="style-1852e882a2.css"/>
+    <link rel="stylesheet" href="style-473de12c32.css"/>
 </head>
 <body>
 <header>
@@ -23,46 +23,13 @@
     <div class="alert-update alert" ng-if="!cartola.mercadoAberto">
         <span>Próxima atualização </span><span am-time-until="nextUpdate">em 5 minutos</span>
     </div>
-    <div layout="row" layout-margin layout-align="center">
-        <div ng-repeat="slug in cartola.times" class="parcial" flex="25">
-            <div class="time">
-                <div class="close">
-                    <md-button class="md-fab  md-mini" ng-click="cartola.removeTime(slug)">&times;</md-button>
-                </div>
-                <div class="escudo">
-                    <img ng-src="{{cartola.parciais[slug].time.escudo}}" alt="nothing-here">
-                </div>
-                <div class="nome-time">
-                    <span class="nome md-display-1">{{cartola.parciais[slug].time.nome}}</span>
-                    <span class="cartola md-subhead">{{cartola.parciais[slug].time.cartola}}</span>
-                </div>
-                <hr>
-                <div class="pontuacao" layout="row">
-                    <div flex>
-                        <h3>Patrimônio</h3>
-                        <span class="valor">{{cartola.parciais[slug].time.patrimonio | currency:'C$ ':'2'}}</span>
-                    </div>
-                    <div flex>
-                        <h3>Pontuação</h3>
-                        <span class="valor">{{cartola.parciais[slug].time.total | number:'2'}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="jogadores">
-                <md-list>
-                    <md-list-item ng-repeat="jogador in cartola.parciais[slug].jogadores">
-                        <div class="jogador md-body-1">
-                            <strong>{{jogador.posicao | uppercase}}</strong>
-                            <span>{{jogador.nome}} ({{jogador.time}})</span>
-                            <strong class="pts">{{jogador.pontuacao|number:'1'}}</strong>
-                        </div>
-                    </md-list-item>
-                </md-list>
-            </div>
+    <div layout="row" layout-margin layout-align="center" layout-wrap>
+        <div ng-repeat="slug in cartola.times" flex-xs="45" flex-sm="30" flex md-whiteframe="5" class="parcial">
+            <cw-parciais-time  parciais="cartola.parciais[slug]" on-remove="cartola.removeTime"></cw-parciais-time>
         </div>
     </div>
 
-    <script src="js/app-53a48c517c.js"></script>
+    <script src="js/app-c6adc2f19f.js"></script>
 </body>
 </html>
 

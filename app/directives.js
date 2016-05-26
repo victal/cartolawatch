@@ -57,5 +57,15 @@ angular.module('CartolaWatcher').directive('amTimeUntil', ['$timeout', function 
         controller: 'SearchController',
         controllerAs: 'search',
         templateUrl: 'app/fragments/search.html'
-    }
+    };
+}).directive('cwParciaisTime', function(){
+    return {
+        restrict: 'E', 
+        scope: {
+            time: '=',
+            parciais: '=',
+            onRemove: '='
+        },
+        templateUrl: 'app/fragments/parciais.html'
+    };
 });

@@ -28,6 +28,7 @@ angular.module('CartolaWatcher').factory('CartolaService', ['$http', 'TimeServic
                 var self = this;
                 var result = {
                     'time': {
+                        'slug': time.time.slug,
                         'nome': time.time.nome,
                         'cartola': time.time.nome_cartola,
                         'escudo': time.time.url_escudo_png,

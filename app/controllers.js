@@ -39,13 +39,11 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
             delete vm.parciais[time];
         };
         vm.updateParciais = function (times) {
-            var promises = {};
             for (var i = 0; i < times.length; i++) {
-                promises[times[i]] = CartolaService.parciais(times[i]);
+                CartolaService.parciais(times[i]).then(function(parciais){
+                    vm.parciais[parciais.time.slug] = parciais;
+                });
             }
-            $q.all(promises).then(function (parciais) {
-                angular.extend(vm.parciais, parciais);
-            });
         };
         vm.atualizaPontuados = function () {
             CartolaService.atualizaPontuados().then(function () {
@@ -76,12 +74,12 @@ angular.module('CartolaWatcher').controller('CartolaController', ['$scope', '$in
             locals: {
                 times: times
             },
-            controller: function($scope, $mdDialog, times){
+            controller: ['$scope', '$mdDialog', 'times', function($scope, $mdDialog, times){
                 $scope.times = times;
                 $scope.answer = function(value){
                     $mdDialog.hide(value);
                 }
-            }
+            }]
         });
     }
 
